@@ -184,6 +184,35 @@ export default class ExShoeStore extends Component {
     });
   };
 
+  handleDeleteShoe = (shoeClick) => {
+    let arrCartEdit = this.state.arrCart;
+    arrCartEdit = arrCartEdit.filter((shoe) => shoe.id != shoeClick.id);
+
+    // set State
+    this.setState({
+      arrCart: arrCartEdit,
+    });
+  };
+
+  handleChangeQuantity = (value, shoeChange) => {
+    let arrCartEdit = this.state.arrCart;
+    let indexShoe = arrCartEdit.findIndex((shoe) => shoe.id == shoeChange.id);
+
+    //function tự nghĩ
+    if (value == -1) {
+      if (shoeChange.quantity > 1) {
+        arrCartEdit[indexShoe].quantity += value;
+      } else {
+        arrCartEdit.splice(indexShoe, 1);
+      }
+    } else arrCartEdit[indexShoe].quantity += value;
+
+    // set State
+    this.setState({
+      arrCart: arrCartEdit,
+    });
+  };
+
   //xác định state => state phải ở component chứa được cả state và setState
   render() {
     // console.log(dataListShoe);
@@ -195,7 +224,11 @@ export default class ExShoeStore extends Component {
           handleAddShoe={this.handleAddShoe}
         />
         <h3 className="mt-5">Giỏ Hàng</h3>
-        <CartShoe dataCartShoe={this.state.arrCart} />
+        <CartShoe
+          dataCartShoe={this.state.arrCart}
+          handleDeleteShoe={this.handleDeleteShoe}
+          handleChangeQuantity={this.handleChangeQuantity}
+        />
       </div>
     );
   }

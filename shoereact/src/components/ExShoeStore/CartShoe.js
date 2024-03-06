@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-
 export default class CartShoe extends Component {
   renderListShoeCart = () => {
-    let { dataCartShoe } = this.props;
+    let { dataCartShoe, handleDeleteShoe, handleChangeQuantity } = this.props;
     return dataCartShoe.map((shoe, index) => {
       return (
         <tr key={index}>
@@ -11,10 +10,35 @@ export default class CartShoe extends Component {
             <img src={shoe.image} width={50} />
           </td>
           <td>{shoe.price}</td>
-          <td>{shoe.quantity}</td>
+          <td>
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                handleChangeQuantity(-1, shoe);
+              }}
+            >
+              -
+            </button>
+            <span className="mx-3">{shoe.quantity}</span>
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                handleChangeQuantity(1, shoe);
+              }}
+            >
+              +
+            </button>
+          </td>
           <td>{shoe.price * shoe.quantity}</td>
           <td>
-            <button className="btn btn-danger">Delete</button>
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                handleDeleteShoe(shoe);
+              }}
+            >
+              Delete
+            </button>
           </td>
         </tr>
       );
